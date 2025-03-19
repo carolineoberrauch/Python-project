@@ -64,6 +64,7 @@ gradient = st.number_input("Enter the average gradient of the segment (%):", min
 bike_type = st.selectbox("Select bike type:", ["road", "MTB", "TT"])
 distance = st.number_input("Enter the segment length (km):", min_value=0.1, max_value=50.0, value=5.0)
 
+# Ensure calculations update immediately when button is clicked
 if st.button("Calculate Power"):
     power, time = estimate_watts(weight, speed, gradient, bike_type, distance)
     st.success(f"Estimated average power: {power} watts.")
@@ -73,10 +74,12 @@ if st.button("Calculate Power"):
     improve = st.checkbox("Do you want to improve your time?")
     if improve:
         if time > 1.1:  # Ensure valid range
-            time_improvement = st.number_input("By how many minutes do you want to improve?", min_value=0.1, max_value=time - 0.1, value=1.0)
+            time_improvement = st.number_input("By how many minutes do you want to improve?", 
+                                               min_value=0.1, max_value=max(time - 0.1, 0.1), value=1.0)
             desired_time = time - time_improvement
             new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
-            st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), you need to increase your power by {watt_increase} watts.")
+            st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), "
+                    f"you need to increase your power by {watt_increase} watts.")
             st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
         else:
-            st.warning("Your estimated time is too short to improve further.")
+            st.warning("Your estimated time is too short to improve further. Try adjusting your speed or distance.")
