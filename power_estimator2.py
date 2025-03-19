@@ -59,9 +59,9 @@ st.write("Estimate your cycling power ⚡ and how to improve 📈.")
 
 # User input
 weight = st.number_input("Enter your weight (kg):", min_value=30.0, max_value=150.0, value=70.0)
-speed = st.number_input("Enter your average speed on the segment (km/h):", min_value=5.0, max_value=80.0, value=25.0)
-gradient = st.number_input("Enter the average gradient of the segment (%):", min_value=-10.0, max_value=20.0, value=5.0)
-bike_type = st.selectbox("Select bike type:", ["road", "MTB", "TT"])
+speed = st.number_input("Enter your average speed on the segment 🏎️ (km/h):", min_value=5.0, max_value=80.0, value=25.0)
+gradient = st.number_input("Enter the average gradient of the segment 📈 (%):", min_value=-10.0, max_value=20.0, value=5.0)
+bike_type = st.selectbox("Select bike type 🚲:", ["road", "MTB", "TT"])
 distance = st.number_input("Enter the segment length (km):", min_value=0.1, max_value=50.0, value=5.0)
 
 # Compute power and time immediately
