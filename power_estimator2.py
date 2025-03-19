@@ -54,8 +54,8 @@ def calculate_improvement(current_watts, current_time, desired_time, weight):
     return round(new_watts, 2), round(watts_per_kg, 2), round(watt_increase, 2)
 
 # Streamlit UI
-st.title("🚴 Bike Power Estimator")
-st.write("Estimate your cycling power and improvements.")
+st.title("🚴 Bike Power Estimator 🏔️")
+st.write("Estimate your cycling power ⚡ and how to improve 📈.")
 
 # User input
 weight = st.number_input("Enter your weight (kg):", min_value=30.0, max_value=150.0, value=70.0)
@@ -66,8 +66,8 @@ distance = st.number_input("Enter the segment length (km):", min_value=0.1, max_
 
 # Compute power and time immediately
 power, time = estimate_watts(weight, speed, gradient, bike_type, distance)
-st.success(f"Estimated average power: {power} watts.")
-st.success(f"Estimated segment time: {time} minutes.")
+st.success(f"Estimated average power ⚡: {power} watts.")
+st.success(f"Estimated segment time ⏰: {time} minutes.")
 
 # Ask for improvement immediately
 if time > 1.1:  # Ensure valid range
@@ -75,13 +75,13 @@ if time > 1.1:  # Ensure valid range
     desired_time = time - time_improvement
     if desired_time > 0:
         new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
-        st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), "
+        st.info(f"To improve your time by {time_improvement} minutes (target time 🕰️: {desired_time} min), "
                 f"you need to increase your power by {watt_increase} watts.")
         st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
     else:
         st.warning("The desired time must be greater than zero. Adjust your improvement time.")
 else:
-    st.warning("Your estimated time is too short to improve further. Try adjusting your speed or distance.")
+    st.warning("⚠️ Your estimated time is too short to improve further. Try adjusting your speed or distance.")
     # Add Estimate button
 if st.button("Estimate! 🚴‍♂️🔥"):
     st.success("Estimation complete! Adjust values to refine your results.")
