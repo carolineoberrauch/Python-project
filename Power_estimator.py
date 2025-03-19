@@ -72,8 +72,11 @@ if st.button("Calculate Power"):
     # Improvement calculation
     improve = st.checkbox("Do you want to improve your time?")
     if improve:
-        time_improvement = st.number_input("By how many minutes do you want to improve?", min_value=0.1, max_value=time - 1, value=1.0)
-        desired_time = time - time_improvement
-        new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
-        st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), you need to increase your power by {watt_increase} watts.")
-        st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
+        if time > 1.1:  # Ensure valid range
+            time_improvement = st.number_input("By how many minutes do you want to improve?", min_value=0.1, max_value=time - 0.1, value=1.0)
+            desired_time = time - time_improvement
+            new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
+            st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), you need to increase your power by {watt_increase} watts.")
+            st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
+        else:
+            st.warning("Your estimated time is too short to improve further.")
