@@ -45,10 +45,13 @@ def calculate_improvement(current_watts, current_time, desired_time, weight):
     improvement_ratio = current_time / desired_time
     new_watts = current_watts * improvement_ratio
     
+    # Calculate watt increase needed
+    watt_increase = new_watts - current_watts
+    
     # Calculate watts per kg ratio
     watts_per_kg = new_watts / weight
     
-    return round(new_watts, 2), round(watts_per_kg, 2)
+    return round(new_watts, 2), round(watts_per_kg, 2), round(watt_increase, 2)
 
 # Streamlit UI
 st.title("🚴 Bike Power Estimator")
@@ -69,8 +72,8 @@ if st.button("Calculate Power"):
     # Improvement calculation
     improve = st.checkbox("Do you want to improve your time?")
     if improve:
-        desired_time = st.number_input("Enter desired time in minutes:", min_value=1.0, max_value=time, value=time - 2.0)
-        new_watts, watts_per_kg = calculate_improvement(power, time, desired_time, weight)
-        st.info(f"To achieve a time of {desired_time} minutes, you need to generate approximately {new_watts} watts.")
-        st.info(f"This corresponds to {watts_per_kg} watts/kg.")
-
+        time_improvement = st.number_input("By how many minutes do you want to improve?", min_value=0.1, max_value=time - 1, value=1.0)
+        desired_time = time - time_improvement
+        new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
+        st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), you need to increase your power by {watt_increase} watts.")
+        st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
