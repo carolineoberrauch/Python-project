@@ -83,6 +83,6 @@ if time > 1.1:  # Ensure valid range
 else:
     st.warning("⚠️ Your estimated time is too short to improve further. Try adjusting your speed or distance.")
     # Add Estimate button
-if st.button("Estimate! 🚴‍♂️🔥"):
-    st.success("Estimation complete! Adjust values to refine your results.")
+if st.button("Go!!! 🚴‍♂️🔥"):
+    st.success("Go push on those pedals, or adjust values if you overestimated yourself!")
 
