@@ -78,8 +78,8 @@ if st.button("Calculate Power"):
             desired_time = time - time_improvement
             if desired_time > 0:
                 new_watts, watts_per_kg, watt_increase = calculate_improvement(power, time, desired_time, weight)
-                st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), 
-                        you need to increase your power by {watt_increase} watts.")
+                st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), "
+                        f"you need to increase your power by {watt_increase} watts.")
                 st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
             else:
                 st.warning("The desired time must be greater than zero. Adjust your improvement time.")
