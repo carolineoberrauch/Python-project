@@ -54,8 +54,8 @@ def calculate_improvement(current_watts, current_time, desired_time, weight):
     return round(new_watts, 2), round(watts_per_kg, 2), round(watt_increase, 2)
 
 # Streamlit UI
-st.title("🚴 Bike Power Estimator")
-st.write("Estimate your cycling power and improvements.")
+st.title("🚴 Bike Power Estimator 🏔️")
+st.write("Estimate your cycling power ⚡and how to improve📈.")
 
 # User input
 weight = st.number_input("Enter your weight (kg):", min_value=30.0, max_value=150.0, value=70.0)
@@ -64,13 +64,13 @@ gradient = st.number_input("Enter the average gradient of the segment (%):", min
 bike_type = st.selectbox("Select bike type:", ["road", "MTB", "TT"])
 distance = st.number_input("Enter the segment length (km):", min_value=0.1, max_value=50.0, value=5.0)
 
-if st.button("Calculate Power"):
+if st.button("Calculate Power ⚡"):
     power, time = estimate_watts(weight, speed, gradient, bike_type, distance)
     st.success(f"Estimated average power: {power} watts.")
     st.success(f"Estimated segment time: {time} minutes.")
     
     # Improvement calculation
-    improve = st.checkbox("Do you want to improve your time?")
+    improve = st.checkbox("Do you want to improve your time? ✅")
     if improve:
         if time > 1.1:  # Ensure valid range
             time_improvement = st.number_input("By how many minutes do you want to improve?", min_value=0.1, max_value=time - 0.1, value=1.0)
@@ -79,4 +79,4 @@ if st.button("Calculate Power"):
             st.info(f"To improve your time by {time_improvement} minutes (target time: {desired_time} min), you need to increase your power by {watt_increase} watts.")
             st.info(f"This means generating a total of {new_watts} watts, which corresponds to {watts_per_kg} watts/kg.")
         else:
-            st.warning("Your estimated time is too short to improve further.")
+            st.warning("Your estimated time is too short to improve further.⚠️")
