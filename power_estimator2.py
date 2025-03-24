@@ -4,17 +4,17 @@ import streamlit as st
 def estimate_watts(weight, speed, gradient, bike_type, distance):
     # Physical constants
     g = 9.81  # Accelerazione gravitazionale (m/s^2)
-    rho = 1.225  # Densitá dell´aria (kg/m^3)
+    rho = 1.225  # Densitá dell´aria (kg/m^3), costante a 15 gradi a 0 dsl
     
-    # Conversions
+    # Conversione
     speed_ms = speed / 3.6  # Converti km/h in m/s
-    angle = math.atan(gradient / 100)  # Converti % gradiente in angolo radiante
+    angle = math.atan(gradient / 100)  # Converti %  in angolo radiante
     
-    # Total mass (ciclista + bici)
+    # Totale massa (ciclista + bici)
     bike_weight = 8 if bike_type == "road" else 12  # Peso bici in kg
     total_mass = weight + bike_weight  # Total mass (kg)
     
-    # Aerodynamic and rolling resistance coefficients
+    # Aerodynamic and rolling resistance coefficients (son delle costanti)
     bike_data = {
         "road": {"CdA": 0.27, "Cr": 0.004},
         "MTB": {"CdA": 0.40, "Cr": 0.008},
@@ -23,22 +23,22 @@ def estimate_watts(weight, speed, gradient, bike_type, distance):
     CdA = bike_data[bike_type]["CdA"]
     Cr = bike_data[bike_type]["Cr"]
     
-    # Power due to air resistance
+    # Power dovuto a to resistenza dell´aria, 0,5 é una costante
     P_air = 0.5 * CdA * rho * (speed_ms ** 3)
     
-    # Power due to gravity
+    # Power per la gravitá 
     P_gravity = total_mass * g * speed_ms * math.sin(angle)
     
-    # Power due to rolling resistance
+    # Power per attrito
     P_rolling = total_mass * g * speed_ms * Cr
     
     # Total estimated power
     P_total = P_air + P_gravity + P_rolling
     
     # Estimated segment time (minutes)
-    segment_time = (distance / speed) * 60  # Convert time from hours to minutes
+    segment_time = (distance / speed) * 60  # Converto in minuti da ore per costanza
     
-    return round(P_total, 2), round(segment_time, 2)  # Return average power and time in minutes
+    return round(P_total, 2), round(segment_time, 2) 
 
 def calculate_improvement(current_watts, current_time, desired_time, weight):
     # Watt necessari per tempo deisderato 
@@ -64,13 +64,13 @@ gradient = st.number_input("Enter the average gradient of the segment 📈 (%):"
 bike_type = st.selectbox("Select bike type 🚲:", ["road", "MTB", "TT"])
 distance = st.number_input("Enter the segment length (km):", min_value=0.1, max_value=50.0, value=5.0)
 
-# Calcolo potenza e tempo 
+# Calcolo potenza e tempo output su streamlit
 power, time = estimate_watts(weight, speed, gradient, bike_type, distance)
 st.success(f"Estimated average power ⚡: {power} watts.")
 st.success(f"Estimated segment time ⏰: {time} minutes.")
 
 # Miglioramento
-if time > 1.1:  # Check intervallo valido
+if time > 1.1:  # per fare intervallo valido
     time_improvement = st.slider("By how many minutes do you want to improve?", 0.1, max(time - 0.1, 0.1), 1.0)
     desired_time = time - time_improvement
     if desired_time > 0:
@@ -82,7 +82,7 @@ if time > 1.1:  # Check intervallo valido
         st.warning("The desired time must be greater than zero. Adjust your improvement time.")
 else:
     st.warning("⚠️ Your estimated time is too short to improve further. Try adjusting your speed or distance.")
-    #  Pulsante
+  
 if st.button("Go!!! 🚴‍♂️🔥"):
     st.success("Go push on those pedals, or adjust values if you overestimated yourself!")
 
